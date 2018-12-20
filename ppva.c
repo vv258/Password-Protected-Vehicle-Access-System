@@ -6,7 +6,7 @@
 #define use_portb_kbd TRUE
 #include <lcd.c>
 #include <kbd.c> 
-#include "tc2.c"
+#include "tc.c"
 #use rs232(baud=9600,parity=N,xmit=PIN_c6,rcv=PIN_c7,bits=8,stream=GSM)
 int c[4];
 int count=0;
