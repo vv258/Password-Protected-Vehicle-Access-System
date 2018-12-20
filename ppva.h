@@ -1,5 +1,5 @@
 #include <16F877A.h>
-#device adc=8
+#device adc=10
 
 #FUSES NOWDT                 	//No Watch Dog Timer
 #FUSES HS                    	//High speed Osc (> 4mhz for PCM/PCH) (>10mhz for PCD)

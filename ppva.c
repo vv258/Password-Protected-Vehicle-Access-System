@@ -1,12 +1,12 @@
 #include <16f877a.h> 
+#device adc=10
 #include <stdio.h>
-#include <stdlib.h>
 #fuses HS,NOLVP,NOWDT,NOPROTECT
 #use delay(clock=20000000) 
 #define use_portb_kbd TRUE
 #include <lcd.c>
 #include <kbd.c> 
-#include "touchcode.c"
+#include "tc2.c"
 #use rs232(baud=9600,parity=N,xmit=PIN_c6,rcv=PIN_c7,bits=8,stream=GSM)
 int c[4];
 int count=0;
@@ -73,7 +73,7 @@ while(i<4)
 void main() 
 {int s[4]={'1','2','3','4'};
 int32 x;
-char p[4];
+char n;
 setup_timer_0(RTCC_EXT_L_TO_H|RTCC_DIV_1|RTCC_8_bit);
  output_high(PIN_C5);
     
@@ -81,7 +81,6 @@ setup_timer_0(RTCC_EXT_L_TO_H|RTCC_DIV_1|RTCC_8_bit);
   
    lcd_init();                   // Turn LCD ON, along with other initialization commands
    kbd_init();    // Initialize Keypad
- gsm_ini();
  delay_ms(100);
   while(1)
    {
@@ -100,11 +99,11 @@ setup_timer_0(RTCC_EXT_L_TO_H|RTCC_DIV_1|RTCC_8_bit);
    lcd_putc('\f');
 lcd_gotoxy(1,1);
  lcd_putc("CODE ERROR");
-  delay_ms(500);  
+  delay_ms(1000);  
     }
    }
 else
- {
+ { gsm_ini();
   send_sms_num();
   for(j=0;j<10;j++)
  {output_high(PIN_C1);
@@ -127,10 +126,13 @@ while(1)
 { set_timer0(0); 
 delay_ms(1000);
 x = GET_TIMER0();
-itoa(x,10, p);
 lcd_putc("\fSpeed : ");
-lcd_putc(p);
+n=x/10 + '0';
+lcd_putc(n);
+n=x%10 + '0';
+lcd_putc(n);
 lcd_putc("kmph");
 }   
 }
+
 
