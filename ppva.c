@@ -6,7 +6,7 @@
 #define use_portb_kbd TRUE
 #include <lcd.c>
 #include <kbd.c> 
-#include "tc2.c"
+#include "touchcode.c"
 #use rs232(baud=9600,parity=N,xmit=PIN_c6,rcv=PIN_c7,bits=8,stream=GSM)
 int c[4];
 int count=0;
@@ -33,7 +33,11 @@ void send_sms()
 }
 void send_sms_num()
 {
-     fprintf(GSM,"AT+CMGS=\"+919947236590\"\r\n"); 
+     fprintf(GSM,"AT+CMGS=");
+      fputc(0x22,GSM);
+      fprintf(GSM,"+919947236590");
+     fputc(0x22,GSM);
+     fprintf(GSM,"\r\n");
    fputc(0x0D,GSM);
    fputc(0x0A,GSM);
    delay_ms(3000);
@@ -134,5 +138,6 @@ lcd_putc(n);
 lcd_putc("kmph");
 }   
 }
+
 
 
